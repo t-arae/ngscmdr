@@ -28,20 +28,82 @@ cat {fpath_in_fastq_group} > {fpath_out_fastq}
     )
   }
 
-#' Map with bowtie and output a sorted bam file
+#' Generate genome index for bowtie
+#' @importFrom glue glue
+#' @param fasta_path .tar file path
+#' @param index_name .tar file path
+#' @export
+glue_bowtie_genome_generate <-
+  function(fasta_path, index_name){
+    glue("
+bowtie-build -f {fasta_path} {index_name}
+         ")
+  }
+
+#' Generate genome index for bowtie2
+#' @importFrom glue glue
+#' @param fasta_path .tar file path
+#' @param index_name .tar file path
+#' @export
+glue_bowtie2_genome_generate <-
+  function(fasta_path, index_name){
+    glue("
+bowtie2-build -f {fasta_path} {index_name}
+         ")
+  }
+
+
+#' Map with bowtie2 and output a sorted bam file
 #' @importFrom glue glue
 #' @param head_label .tar file path
+#' @param index_name .tar file path
 #' @param in_dir .tar file path
 #' @param out_dir .tar file path
 #' @export
-glue_bowtie_bamsort <-
-  function(head_label, in_dir = "./fastq", out_dir = "./mapped_by_bowtie"){
+glue_bowtie2_bamsort <-
+  function(
+    head_label,
+    index_name,
+    in_dir = "./fastq",
+    out_dir = "./mapped_by_bowtie2"
+  ){
     line_end <- "\\"
     glue(
       "
 mkdir {out_dir}
-bowtie -p 2 -S {line_end}
-  TAIRIDX {in_dir}/{head_label}.fastq {in_dir}/{head_label}.sam && {line_end}
+bowtie2 -p 2 -a --best --strata --trim5 8 --trim3 40 {line_end}
+  -x {index_name} -U {in_dir}/{head_label}.fastq -S {in_dir}/{head_label}.sam && {line_end}
+mv {in_dir}/{head_label}.sam {out_dir} && {line_end}
+samtools sort -O bam -o {out_dir}/{head_label}_bowtie2.sort.bam {line_end}
+  {out_dir}/{head_label}.sam && {line_end}
+samtools index {out_dir}/{head_label}_bowtie2.sort.bam && {line_end}
+rm {out_dir}/{head_label}.sam
+
+      "
+    )
+  }
+
+
+#' Map with bowtie and output a sorted bam file
+#' @importFrom glue glue
+#' @param head_label .tar file path
+#' @param index_name .tar file path
+#' @param in_dir .tar file path
+#' @param out_dir .tar file path
+#' @export
+glue_bowtie_bamsort <-
+  function(
+    head_label,
+    index_name,
+    in_dir = "./fastq",
+    out_dir = "./mapped_by_bowtie"
+  ){
+    line_end <- "\\"
+    glue(
+      "
+mkdir {out_dir}
+bowtie -p 2 -S -a --best --strata {line_end}
+  {index_name} {in_dir}/{head_label}.fastq {in_dir}/{head_label}.sam && {line_end}
 mv {in_dir}/{head_label}.sam {out_dir} && {line_end}
 samtools sort -O bam -o {out_dir}/{head_label}_bowtie.sort.bam {line_end}
   {out_dir}/{head_label}.sam && {line_end}
@@ -208,4 +270,32 @@ glue_star_pipeline <-
       )
 
     cat(temp, temp2)
+  }
+
+
+#' featureCounts
+#' @importFrom glue glue
+#' @param head_label .tar file path
+#' @param in_dir .tar file path
+#' @param out_dir .tar file path
+#' @param gtf_path .tar file path
+#' @export
+glue_featurecounts <-
+  function(
+    head_label,
+    in_dir,
+    out_dir = "./readcount",
+    gtf_path = "./TAIR10_GFF3_genes_transposons.gtf"
+  ){
+    line_end <- "\\"
+    glue("
+mkdir {out_dir}
+featureCounts {line_end}
+  -s 1 {line_end}
+  -t exon {line_end}
+  -g gene_id {line_end}
+  -a {gtf_path} {line_end}
+  -o {out_dir}/{head_label}_counts.txt {line_end}
+  {in_dir}/{head_label}.sort.bam
+         ")
   }
