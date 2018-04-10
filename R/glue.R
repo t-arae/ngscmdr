@@ -1,3 +1,5 @@
+if(getRversion() >= "2.15.1")  utils::globalVariables(c("."))
+
 
 #' Extract files from arachive file (.tar)
 #' @importFrom glue glue
@@ -26,6 +28,28 @@ glue_merge_fastq <-
 cat {fpath_in_fastq_group} > {fpath_out_fastq}
     "
     )
+  }
+
+
+#' Create fastqc reports
+#' @importFrom stringr str_detect
+#' @importFrom magrittr %>%
+#' @importFrom glue glue
+#' @param jissai_in_dir .tar file path
+#' @param in_dir .tar file path
+#' @param out_dir .tar file path
+#' @export
+glue_fastqc <-
+  function(jissai_in_dir, in_dir = "./fastq", out_dir = "./fastqc_out"){
+    all_files <- list.files(jissai_in_dir)
+    fastq_path <-
+      str_detect(all_files, ".*(.fastq$)|(.fastq.gz$)") %>%
+      all_files[.] %>%
+      paste(in_dir, ., sep = "/") %>%
+      paste(collapse = " ")
+    glue("
+fastqc -o {out_dir} {fastq_path}
+           ")
   }
 
 #' Generate genome index for bowtie
