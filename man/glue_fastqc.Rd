@@ -4,11 +4,9 @@
 \alias{glue_fastqc}
 \title{Create fastqc reports}
 \usage{
-glue_fastqc(jissai_in_dir, in_dir = "./fastq", out_dir = "./fastqc_out")
+glue_fastqc(in_dir = "./fastq", out_dir = "./fastqc_out")
 }
 \arguments{
-\item{jissai_in_dir}{.tar file path}
-
 \item{in_dir}{.tar file path}
 
 \item{out_dir}{.tar file path}

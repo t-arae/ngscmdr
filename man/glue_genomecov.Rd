@@ -4,12 +4,14 @@
 \alias{glue_genomecov}
 \title{Calculate genome coverage}
 \usage{
-glue_genomecov(fpath_sorted_bam, fpath_out)
+glue_genomecov(head_label, in_dir = ".", out_dir = ".")
 }
 \arguments{
-\item{fpath_sorted_bam}{.tar file path}
+\item{head_label}{.tar file path}
 
-\item{fpath_out}{.tar file path}
+\item{in_dir}{.tar file path}
+
+\item{out_dir}{.tar file path}
 }
 \description{
 Calculate genome coverage
