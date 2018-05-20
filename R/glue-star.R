@@ -15,21 +15,19 @@ glue_star_genome_generate <-
     core_num = 2
   ){
     lineend <- "\\"
-    glue(
-      "
+    glue("
 
 mkdir {stargenome_dir}
 STAR {lineend}
-  --runThreadN {core_num} {lineend}
   --runMode genomeGenerate {lineend}
+  --runThreadN {core_num} {lineend}
   --genomeDir {stargenome_dir} {lineend}
   --genomeFastaFiles {chr_fasta_path} {lineend}
   --sjdbGTFfile {gff_path} {lineend}
   --sjdbOverhang 35 {lineend}
   --sjdbGTFtagExonParentTranscript Parent
 
-    "
-    )
+    ")
   }
 
 #' Map with STAR and output a sorted bam file
@@ -40,13 +38,16 @@ STAR {lineend}
 #' @param stargenome_dir .tar file path
 #' @param gff_path .tar file path
 #' @export
-glue_star_bamsort <-
-  function(head_label, in_dir = "./fastq", out_dir = "./mapped_by_star",
-           stargenome_dir = "./stargenome",
-           gff_path = "TAIR10_GFF3_genes_transposons.gff"){
+glue_se_star_bamsort <-
+  function(
+    head_label,
+    in_dir = "./fastq",
+    out_dir = "./mapped_by_star",
+    stargenome_dir = "./stargenome",
+    gff_path = "TAIR10_GFF3_genes_transposons.gff"
+  ){
     lineend <- "\\"
-    glue(
-      "
+    glue("
 
 STAR {lineend}
   --runThreadN 2 {lineend}
@@ -63,19 +64,19 @@ STAR {lineend}
   --sjdbOverhang 35 {lineend}
   --seedSearchStartLmax 15 {lineend}
   --outSAMtype BAM SortedByCoordinate {lineend}
-  --readFilesIn {in_dir}/{head_label}.fastq {lineend}
+  --readFilesCommand zcat {lineend}
+  --readFilesIn {in_dir}/{head_label}.fastq.gz {lineend}
   --outFileNamePrefix {head_label}
 
-mkdir {out_dir}/{head_label}
-mv {head_label}Aligned.sortedByCoord.out.bam {out_dir}/{head_label}/{head_label}.sort.bam
-mv {head_label}Log.final.out {out_dir}/{head_label}/{head_label}Log.final.out
+mkdir {out_dir}
+mv {head_label}Aligned.sortedByCoord.out.bam {out_dir}/{head_label}.sort.bam
+mv {head_label}Log.final.out {out_dir}/{head_label}Log.final.out
 rm -R {head_label}_STARgenome
 rm {head_label}Log.progress.out
 rm {head_label}Log.out
 rm {head_label}SJ.out.tab
 
-    "
-    )
+    ")
   }
 
 
@@ -97,7 +98,7 @@ glue_star_pipeline <-
     star_output_dir <- "./mapped_by_star"
 
     temp <-
-      glue_star_bamsort(
+      glue_se_star_bamsort(
         head_label = head_label,
         in_dir = fastq_file_dir,
         out_dir = star_output_dir,

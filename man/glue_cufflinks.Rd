@@ -4,8 +4,8 @@
 \alias{glue_cufflinks}
 \title{Calculate FPKM by Cufflinks}
 \usage{
-glue_cufflinks(head_label, in_dir, out_dir,
-  gff_path = "TAIR10_GFF3_genes_transposons.gff")
+glue_cufflinks(head_label, in_dir, out_dir = "./fpkm", core_num = 2,
+  gff_path = "./TAIR10_GFF3_genes_transposons.gff")
 }
 \arguments{
 \item{head_label}{.tar file path}
@@ -13,6 +13,8 @@ glue_cufflinks(head_label, in_dir, out_dir,
 \item{in_dir}{.tar file path}
 
 \item{out_dir}{.tar file path}
+
+\item{core_num}{.tar file path}
 
 \item{gff_path}{.tar file path}
 }

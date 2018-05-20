@@ -6,7 +6,7 @@
 #' @param in_dir .tar file path
 #' @param out_dir .tar file path
 #' @export
-glue_cutadapt_singleend <-
+glue_se_cutadapt <-
   function(
     label,
     adaptor,
@@ -34,7 +34,7 @@ cutadapt {lineend}
 #' @param in_dir .tar file path
 #' @param out_dir .tar file path
 #' @export
-glue_cutadapt_pairend <-
+glue_pe_cutadapt <-
   function(
     label,
     f_adaptor,
@@ -53,8 +53,8 @@ cutadapt {lineend}
   -m {minimum_length} {lineend}
   -a {f_adaptor} {lineend}
   -A {r_adaptor} {lineend}
-  -o {out_dir}/{label}_1_cl.fastq.gz {lineend}
-  -p {out_dir}/{label}_2_cl.fastq.gz {lineend}
+  -o {out_dir}/{label}_cl_1.fastq.gz {lineend}
+  -p {out_dir}/{label}_cl_2.fastq.gz {lineend}
   {in_dir}/{label}_1.fastq.gz {in_dir}/{label}_2.fastq.gz
 
          ")

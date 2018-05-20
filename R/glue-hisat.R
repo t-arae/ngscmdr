@@ -3,54 +3,102 @@
 #' @importFrom glue glue
 #' @param chr_fasta_path .tar file path
 #' @param index_name .tar file path
+#' @param index_dir .tar file path
+#' @param core_num .tar file path
 #' @export
 glue_hisat_genome_generate <-
   function(
     chr_fasta_path = "./allChr.fas",
-    index_name = "TAIR10"
+    index_name = "TAIR10",
+    index_dir = "./genomeidx_hisat",
+    core_num = 2
   ){
     lineend <- "\\"
     glue(
       "
 
+mkdir {index_dir}
 hisat2-build {lineend}
-  -p 2 {lineend}
+  -p {core_num} {lineend}
   --seed 1 {lineend}
   {chr_fasta_path} {lineend}
-  {index_name}
+  {index_dir}/{index_name}
 
     "
     )
   }
 
-#' Map with STAR and output a sorted bam file
+#' Map single-end reads with hisat and output a sorted bam file
 #' @importFrom glue glue
-#' @param read1 .tar file path
-#' @param read2 .tar file path
+#' @param head_label .tar file path
 #' @param core_num .tar file path
 #' @param index_name .tar file path
-#' @param out .tar file path
+#' @param index_dir .tar file path
+#' @param in_dir .tar file path
+#' @param out_dir .tar file path
 #' @export
-glue_hisat_bamsort <-
-  function(read1, read2,
+glue_se_hisat_bamsort <-
+  function(head_label,
            core_num = 2,
            index_name = "TAIR10",
-           out = "hoge"
+           index_dir = "./genomeidx_hisat",
+           in_dir = "./fastq",
+           out_dir = "./mapped_by_hisat"
   ){
     lineend <- "\\"
     glue(
       "
 
+mkdir {out_dir}
 hisat2 {lineend}
+  --dta-cufflinks {lineend}
   -p {core_num} {lineend}
-  -x {index_name} {lineend}
-  -1 {read1} {lineend}
-  -2 {read2} {lineend}
+  -x {index_dir}/{index_name} {lineend}
+  -U {in_dir}/{head_label}.fastq.gz {lineend}
 | {lineend}
 samtools view -@ {core_num} -bS {lineend}
 | {lineend}
-samtools sort -@ {core_num} > {out}.sort.bam
-samtools index {out}.sort.bam
+samtools sort -@ {core_num} > {out_dir}/{head_label}.sort.bam
+samtools index {out_dir}/{head_label}.sort.bam
+
+    "
+    )
+  }
+
+
+#' Map paired-end reads with hisat and output a sorted bam file
+#' @importFrom glue glue
+#' @param head_label .tar file path
+#' @param core_num .tar file path
+#' @param index_name .tar file path
+#' @param index_dir .tar file path
+#' @param in_dir .tar file path
+#' @param out_dir .tar file path
+#' @export
+glue_pe_hisat_bamsort <-
+  function(head_label,
+           core_num = 2,
+           index_name = "TAIR10",
+           index_dir = "./genomeidx_hisat",
+           in_dir = "./fastq",
+           out_dir = "./mapped_by_hisat"
+  ){
+    lineend <- "\\"
+    glue(
+      "
+
+mkdir {out_dir}
+hisat2 {lineend}
+  --dta-cufflinks {lineend}
+  -p {core_num} {lineend}
+  -x {index_dir}/{index_name} {lineend}
+  -1 {in_dir}/{head_label}_1.fastq.gz {lineend}
+  -2 {in_dir}/{head_label}_2.fastq.gz {lineend}
+| {lineend}
+samtools view -@ {core_num} -bS {lineend}
+| {lineend}
+samtools sort -@ {core_num} > {out_dir}/{head_label}.sort.bam
+samtools index {out_dir}/{head_label}.sort.bam
 
     "
     )

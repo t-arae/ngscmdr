@@ -12,5 +12,9 @@ LazyData: true
 Imports: 
     glue,
     magrittr,
-    stringr
+    stringr,
+    dplyr,
+    purrr,
+    tibble,
+    readr
 RoxygenNote: 6.0.1
