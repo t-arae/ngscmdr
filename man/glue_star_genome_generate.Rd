@@ -4,18 +4,18 @@
 \alias{glue_star_genome_generate}
 \title{Generate genome index for STAR}
 \usage{
-glue_star_genome_generate(stargenome_dir = "./stargenome",
-  chr_fasta_path = "./allChr.fas",
+glue_star_genome_generate(idx_dir = "./idx_star",
+  fasta_path = "./allChr.fas",
   gff_path = "./TAIR10_GFF3_genes_transposons.gff", core_num = 2)
 }
 \arguments{
-\item{stargenome_dir}{.tar file path}
+\item{idx_dir}{directory path for the indexing output}
 
-\item{chr_fasta_path}{.tar file path}
+\item{fasta_path}{genome fasta file path for indexing}
 
 \item{gff_path}{.tar file path}
 
-\item{core_num}{.tar file path}
+\item{core_num}{number of cpu core}
 }
 \description{
 Generate genome index for STAR

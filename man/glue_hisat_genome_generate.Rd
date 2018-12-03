@@ -4,17 +4,17 @@
 \alias{glue_hisat_genome_generate}
 \title{Generate genome index for HISAT2}
 \usage{
-glue_hisat_genome_generate(chr_fasta_path = "./allChr.fas",
-  index_name = "TAIR10", index_dir = "./genomeidx_hisat", core_num = 2)
+glue_hisat_genome_generate(fasta_path = "./allChr.fas",
+  idx_name = "TAIR10", idx_dir = "./idx_hisat", core_num = 2)
 }
 \arguments{
-\item{chr_fasta_path}{.tar file path}
+\item{fasta_path}{genome fasta file path for indexing}
 
-\item{index_name}{.tar file path}
+\item{idx_name}{index name}
 
-\item{index_dir}{.tar file path}
+\item{idx_dir}{directory path for the indexing output}
 
-\item{core_num}{.tar file path}
+\item{core_num}{number of cpu core}
 }
 \description{
 Generate genome index for HISAT2

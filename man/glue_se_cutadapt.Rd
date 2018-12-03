@@ -4,16 +4,17 @@
 \alias{glue_se_cutadapt}
 \title{Clipping adaptor from single end reads}
 \usage{
-glue_se_cutadapt(label, adaptor, in_dir = "./fastq", out_dir = "./fastq")
+glue_se_cutadapt(head_label, adaptor, in_dir = "./fastq",
+  out_dir = "./fastq")
 }
 \arguments{
-\item{label}{.tar file path}
+\item{head_label}{sample label}
 
 \item{adaptor}{.tar file path}
 
-\item{in_dir}{.tar file path}
+\item{in_dir}{A path of directory which contains input files}
 
-\item{out_dir}{.tar file path}
+\item{out_dir}{A path of directory for saving output files}
 }
 \description{
 Clipping adaptor from single end reads

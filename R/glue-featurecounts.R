@@ -1,11 +1,9 @@
 
 #' featureCounts
 #' @importFrom glue glue
-#' @param head_label .tar file path
-#' @param in_dir .tar file path
-#' @param out_dir .tar file path
-#' @param core_num .tar file path
+#' @inheritParams param_general
 #' @param gtf_path .tar file path
+#' @param feat_type specify feature type
 #' @export
 glue_se_featurecounts <-
   function(
@@ -13,32 +11,37 @@ glue_se_featurecounts <-
     in_dir,
     out_dir = "./readcount",
     core_num = 2,
-    gtf_path = "./TAIR10_GFF3_genes_transposons.gtf"
+    gtf_path = "./TAIR10_GFF3_genes_transposons.gtf",
+    feat_type = "exon"
   ){
-    line_end <- "\\"
+    le <- "\\"
     pe_flag <- ""
     glue("
 
 mkdir {out_dir}
-featureCounts {line_end}{pe_flag}
-  -t exon {line_end}
-  -g gene_id {line_end}
-  -T {core_num} {line_end}
-  -a {gtf_path} {line_end}
-  -o {out_dir}/{head_label}_gene_counts.txt {line_end}
-  {in_dir}/{head_label}.sort.bam {line_end}
-  3>&2 2>&1 1>&3 | tee {out_dir}/{head_label}_gene_counts.log {line_end}
+featureCounts {le}{pe_flag}
+  -M {le}
+  --fraction {le}
+  -t {feat_type} {le}
+  -g gene_id {le}
+  -T {core_num} {le}
+  -a {gtf_path} {le}
+  -o {out_dir}/{head_label}_gene_counts.txt {le}
+  {in_dir}/{head_label}.sort.bam {le}
+  3>&2 2>&1 1>&3 | tee {out_dir}/{head_label}_gene_counts.log {le}
   3>&2 2>&1 1>&3
 
-featureCounts {line_end}{pe_flag}
-  -t exon {line_end}
-  -g transcript_id {line_end}
-  -O {line_end}
-  -T {core_num} {line_end}
-  -a {gtf_path} {line_end}
-  -o {out_dir}/{head_label}_transcript_counts.txt {line_end}
-  {in_dir}/{head_label}.sort.bam {line_end}
-  3>&2 2>&1 1>&3 | tee {out_dir}/{head_label}_transcript_counts.log {line_end}
+featureCounts {le}{pe_flag}
+  -M {le}
+  --fraction {le}
+  -t {feat_type} {le}
+  -g transcript_id {le}
+  -O {le}
+  -T {core_num} {le}
+  -a {gtf_path} {le}
+  -o {out_dir}/{head_label}_transcript_counts.txt {le}
+  {in_dir}/{head_label}.sort.bam {le}
+  3>&2 2>&1 1>&3 | tee {out_dir}/{head_label}_transcript_counts.log {le}
   3>&2 2>&1 1>&3
 
          ")
@@ -46,11 +49,9 @@ featureCounts {line_end}{pe_flag}
 
 #' featureCounts for Pair-end reads
 #' @importFrom glue glue
-#' @param head_label .tar file path
-#' @param in_dir .tar file path
-#' @param out_dir .tar file path
-#' @param core_num .tar file path
+#' @inheritParams param_general
 #' @param gtf_path .tar file path
+#' @param feat_type specify feature type
 #' @export
 glue_pe_featurecounts <-
   function(
@@ -58,33 +59,38 @@ glue_pe_featurecounts <-
     in_dir,
     out_dir = "./readcount",
     core_num = 2,
-    gtf_path = "./TAIR10_GFF3_genes_transposons.gtf"
+    gtf_path = "./TAIR10_GFF3_genes_transposons.gtf",
+    feat_type = "exon"
   ){
-    line_end <- "\\"
+    le <- "\\"
     pe_flag <- "\n  -p \\"
     glue("
-
 mkdir {out_dir}
-featureCounts {line_end}{pe_flag}
-  -t exon {line_end}
-  -g gene_id {line_end}
-  -T {core_num} {line_end}
-  -a {gtf_path} {line_end}
-  -o {out_dir}/{head_label}_gene_counts.txt {line_end}
-  {in_dir}/{head_label}.sort.bam {line_end}
-  3>&2 2>&1 1>&3 | tee {out_dir}/{head_label}_gene_counts.log {line_end}
+featureCounts {le}{pe_flag}
+  -M {le}
+  --fraction {le}
+  -t {feat_type} {le}
+  -g gene_id {le}
+  -T {core_num} {le}
+  -a {gtf_path} {le}
+  -o {out_dir}/{head_label}_gene_counts.txt {le}
+  {in_dir}/{head_label}.sort.bam {le}
+  3>&2 2>&1 1>&3 | tee {out_dir}/{head_label}_gene_counts.log {le}
   3>&2 2>&1 1>&3
 
-featureCounts {line_end}{pe_flag}
-  -t exon {line_end}
-  -g transcript_id {line_end}
-  -O {line_end}
-  -T {core_num} {line_end}
-  -a {gtf_path} {line_end}
-  -o {out_dir}/{head_label}_transcript_counts.txt {line_end}
-  {in_dir}/{head_label}.sort.bam {line_end}
-  3>&2 2>&1 1>&3 | tee {out_dir}/{head_label}_transcript_counts.log {line_end}
+featureCounts {le}{pe_flag}
+  -M {le}
+  --fraction {le}
+  -t {feat_type} {le}
+  -g transcript_id {le}
+  -O {le}
+  -T {core_num} {le}
+  -a {gtf_path} {le}
+  -o {out_dir}/{head_label}_transcript_counts.txt {le}
+  {in_dir}/{head_label}.sort.bam {le}
+  3>&2 2>&1 1>&3 | tee {out_dir}/{head_label}_transcript_counts.log {le}
   3>&2 2>&1 1>&3
+
 
          ")
   }
@@ -99,7 +105,7 @@ featureCounts {line_end}{pe_flag}
 #' @importFrom stringr str_extract
 #' @importFrom stringr str_sub
 #' @importFrom magrittr %>%
-#' @param in_dir .tar file path
+#' @inheritParams param_general
 #' @export
 merge_featurecount_output <-
   function(

@@ -7,7 +7,7 @@
 merge_featurecount_output(in_dir = "./readcount")
 }
 \arguments{
-\item{in_dir}{.tar file path}
+\item{in_dir}{A path of directory which contains input files}
 }
 \description{
 Merging read count tsv file from featureCounts

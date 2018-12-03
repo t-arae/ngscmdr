@@ -4,22 +4,22 @@
 \alias{glue_pe_hisat_bamsort}
 \title{Map paired-end reads with hisat and output a sorted bam file}
 \usage{
-glue_pe_hisat_bamsort(head_label, core_num = 2, index_name = "TAIR10",
-  index_dir = "./genomeidx_hisat", in_dir = "./fastq",
+glue_pe_hisat_bamsort(head_label, core_num = 2, idx_name = "TAIR10",
+  idx_dir = "./idx_hisat", in_dir = "./fastq",
   out_dir = "./mapped_by_hisat")
 }
 \arguments{
-\item{head_label}{.tar file path}
+\item{head_label}{sample label}
 
-\item{core_num}{.tar file path}
+\item{core_num}{number of cpu core}
 
-\item{index_name}{.tar file path}
+\item{idx_name}{index name}
 
-\item{index_dir}{.tar file path}
+\item{idx_dir}{directory path for the indexing output}
 
-\item{in_dir}{.tar file path}
+\item{in_dir}{A path of directory which contains input files}
 
-\item{out_dir}{.tar file path}
+\item{out_dir}{A path of directory for saving output files}
 }
 \description{
 Map paired-end reads with hisat and output a sorted bam file

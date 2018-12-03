@@ -5,17 +5,17 @@
 \title{Map with STAR and output a sorted bam file}
 \usage{
 glue_se_star_bamsort(head_label, in_dir = "./fastq",
-  out_dir = "./mapped_by_star", stargenome_dir = "./stargenome",
+  out_dir = "./mapped_by_star", idx_dir = "./idx_star",
   gff_path = "TAIR10_GFF3_genes_transposons.gff")
 }
 \arguments{
-\item{head_label}{.tar file path}
+\item{head_label}{sample label}
 
-\item{in_dir}{.tar file path}
+\item{in_dir}{A path of directory which contains input files}
 
-\item{out_dir}{.tar file path}
+\item{out_dir}{A path of directory for saving output files}
 
-\item{stargenome_dir}{.tar file path}
+\item{idx_dir}{directory path for the indexing output}
 
 \item{gff_path}{.tar file path}
 }

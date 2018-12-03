@@ -5,18 +5,21 @@
 \title{featureCounts}
 \usage{
 glue_se_featurecounts(head_label, in_dir, out_dir = "./readcount",
-  core_num = 2, gtf_path = "./TAIR10_GFF3_genes_transposons.gtf")
+  core_num = 2, gtf_path = "./TAIR10_GFF3_genes_transposons.gtf",
+  feat_type = "exon")
 }
 \arguments{
-\item{head_label}{.tar file path}
+\item{head_label}{sample label}
 
-\item{in_dir}{.tar file path}
+\item{in_dir}{A path of directory which contains input files}
 
-\item{out_dir}{.tar file path}
+\item{out_dir}{A path of directory for saving output files}
 
-\item{core_num}{.tar file path}
+\item{core_num}{number of cpu core}
 
 \item{gtf_path}{.tar file path}
+
+\item{feat_type}{specify feature type}
 }
 \description{
 featureCounts

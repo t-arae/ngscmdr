@@ -4,11 +4,11 @@
 \alias{glue_pe_cutadapt}
 \title{Clipping adaptor from pair end reads}
 \usage{
-glue_pe_cutadapt(label, f_adaptor, r_adaptor, overlap = 3,
+glue_pe_cutadapt(head_label, f_adaptor, r_adaptor, overlap = 3,
   minimum_length = 20, in_dir = "./fastq", out_dir = "./fastq")
 }
 \arguments{
-\item{label}{.tar file path}
+\item{head_label}{sample label}
 
 \item{f_adaptor}{.tar file path}
 
@@ -18,9 +18,9 @@ glue_pe_cutadapt(label, f_adaptor, r_adaptor, overlap = 3,
 
 \item{minimum_length}{.tar file path}
 
-\item{in_dir}{.tar file path}
+\item{in_dir}{A path of directory which contains input files}
 
-\item{out_dir}{.tar file path}
+\item{out_dir}{A path of directory for saving output files}
 }
 \description{
 Clipping adaptor from pair end reads

@@ -1,42 +1,38 @@
 
 #' Clipping adaptor from single end reads
 #' @importFrom glue glue
-#' @param label .tar file path
+#' @inheritParams param_general
 #' @param adaptor .tar file path
-#' @param in_dir .tar file path
-#' @param out_dir .tar file path
 #' @export
 glue_se_cutadapt <-
   function(
-    label,
+    head_label,
     adaptor,
     in_dir = "./fastq",
     out_dir = "./fastq"
   ){
-    lineend <- "\\"
+    le <- "\\"
     glue("
 
-cutadapt {lineend}
-  -a {adaptor} {lineend}
-  -o {out_dir}/{label}_cl.fastq.gz {lineend}
-  {in_dir}/{label}.fastq.gz {lineend}
+cutadapt {le}
+  -a {adaptor} {le}
+  -o {out_dir}/{head_label}_cl.fastq.gz {le}
+  {in_dir}/{head_label}.fastq.gz {le}
 
          ")
   }
 
 #' Clipping adaptor from pair end reads
 #' @importFrom glue glue
-#' @param label .tar file path
+#' @inheritParams param_general
 #' @param f_adaptor .tar file path
 #' @param r_adaptor .tar file path
 #' @param overlap .tar file path
 #' @param minimum_length .tar file path
-#' @param in_dir .tar file path
-#' @param out_dir .tar file path
 #' @export
 glue_pe_cutadapt <-
   function(
-    label,
+    head_label,
     f_adaptor,
     r_adaptor,
     overlap = 3,
@@ -44,18 +40,18 @@ glue_pe_cutadapt <-
     in_dir = "./fastq",
     out_dir = "./fastq"
   ){
-    lineend <- "\\"
+    le <- "\\"
     glue("
 
-cutadapt {lineend}
-  --pair-filter=any {lineend}
-  -O {overlap} {lineend}
-  -m {minimum_length} {lineend}
-  -a {f_adaptor} {lineend}
-  -A {r_adaptor} {lineend}
-  -o {out_dir}/{label}_cl_1.fastq.gz {lineend}
-  -p {out_dir}/{label}_cl_2.fastq.gz {lineend}
-  {in_dir}/{label}_1.fastq.gz {in_dir}/{label}_2.fastq.gz
+cutadapt {le}
+  --pair-filter=any {le}
+  -O {overlap} {le}
+  -m {minimum_length} {le}
+  -a {f_adaptor} {le}
+  -A {r_adaptor} {le}
+  -o {out_dir}/{head_label}_cl_1.fastq.gz {le}
+  -p {out_dir}/{head_label}_cl_2.fastq.gz {le}
+  {in_dir}/{head_label}_1.fastq.gz {in_dir}/{head_label}_2.fastq.gz
 
          ")
   }
