@@ -26,49 +26,71 @@ print.cmdopt <-
 #' @export
 cmd_get <- function(x) UseMethod("cmd_get")
 
-
-#' Extract files from arachive file (.tar)
-#' @param archive_file .tar file path.
-#' @export
-cmd_set_extract_file_from_tar <-
-  function(archive_file){
-    extract_to <- dirname(archive_file)
+cmd_set_star <-
+  function(
+    sample_label,
+    in_dir = "./fastq",
+    out_dir = "./mapped_by_star",
+    fasta_path = "./allChr.fas",
+    idx_dir = "./idx_star",
+    gff_path = "./TAIR10_GFF3_genes_transposons.gff",
+    core_num = 4
+  ){
     new_cmdopt(
-      inf = archive_file,
-      out_dir = extract_to,
-      cmd_id = "extract_file_from_tar"
+      label = sample_label,
+      in_dir = in_dir,
+      out_dir = out_dir,
+      fasta_path = "./allChr.fas",
+      idx_dir = "./idx_star",
+      gff_path = "./TAIR10_GFF3_genes_transposons.gff",
+      core_num = 4,
+      cmd_id = "star"
     )
   }
 
-cmd_get.extract_file_from_tar <-
+cmd_get.star <-
   function(x){
-    glue::glue("
-tar xvf {inf} -C {out_dir}
-      ", .envir = as.environment(x))
+    x$le <- "\\"
+    x$fq_ext <- get_file_ext()$"fastq"
+    genome_indexing_string <- "
+mkdir {idx_dir}
+STAR {le}
+  --runMode genomeGenerate {le}
+  --runThreadN {core_num} {le}
+  --genomeDir {idx_dir} {le}
+  --genomeFastaFiles {fasta_path} {le}
+  --sjdbGTFfile {gff_path} {le}
+  --sjdbOverhang 35 {le}
+  --sjdbGTFtagExonParentTranscript Parent
+"
+    mapping_string <- "
+STAR {le}
+  --runThreadN {core_num} {le}
+  --genomeDir {idx_dir} {le}
+  --sjdbGTFfile {gff_path} {le}
+  --sjdbGTFtagExonParentTranscript Parent {le}
+  --alignIntronMin 20 {le}
+  --alignIntronMax 3000 {le}
+  --outSAMstrandField intronMotif {le}
+  --outSAMmultNmax 1 {le}
+  --outMultimapperOrder Random {le}
+  --outFilterMultimapNmax 20 {le}
+  --outFilterMismatchNmax 3 {le}
+  --sjdbOverhang 35 {le}
+  --seedSearchStartLmax 15 {le}
+  --outSAMtype BAM SortedByCoordinate {le}
+  --readFilesCommand zcat {le}
+  --readFilesIn {in_dir}/{label}.{fq_ext}.gz {le}
+  --outFileNamePrefix {label}
+
+mkdir {out_dir}
+mv {label}Aligned.sortedByCoord.out.bam {out_dir}/{label}.sort.bam
+mv {label}Log.final.out {out_dir}/{label}Log.final.out
+mv {label}Log.out {out_dir}/{label}Log.out
+rm -R {label}_STARgenome
+rm {label}Log.progress.out
+rm {label}SJ.out.tab
+"
+
+    glue(paste0(genome_indexing_string, mapping_string), .envir = as.environment(x))
   }
-# cmd_set_extract_file_from_tar("data/hoge.tar") %>% cmd_get()
-
-
-
-
-#' Merge some fastq files to a fastq file
-#' @importFrom glue glue
-#' @param gziped_files .tar file path
-#' @param gzip_out .tar file path
-#' @export
-cmd_set_merge_gz <-
-  function(gziped_files, gzip_out){
-    new_cmdopt(inf = gziped_files, outf = gzip_out, cmd_id = "merge_gz")
-  }
-
-cmd_get.merge_gz <-
-  function(x){
-    x$inf <- paste(x$inf, collapse = " ")
-    glue::glue("
-cat {inf} > {outf} && rm {inf}
-    ", .envir = as.environment(x))
-  }
-# cmd_set_merge_gz(c("hoge.gz", "hage.gz"), "hige.gz") %>% cmd_get()
-
-
-
