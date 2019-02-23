@@ -4,12 +4,15 @@
 \alias{glue_fastqc}
 \title{Create fastqc reports}
 \usage{
-glue_fastqc(in_dir = "./fastq", out_dir = "./fastqc_out")
+glue_fastqc(in_dir = "./fastq", out_dir = "./fastqc_out",
+  core_num = 4)
 }
 \arguments{
-\item{in_dir}{.tar file path}
+\item{in_dir}{A path of directory which contains input files}
 
-\item{out_dir}{.tar file path}
+\item{out_dir}{A path of directory for saving output files}
+
+\item{core_num}{number of cpu core}
 }
 \description{
 Create fastqc reports

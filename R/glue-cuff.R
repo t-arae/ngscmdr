@@ -162,6 +162,7 @@ glue_cuffdiff <-
     merged_gtf_path = "./cuff/2_merge/merged.gtf",
     core_num = 2
   ){
+    . <- NULL
     le <- "\\"
     group <- names(head_labels)
 
@@ -204,6 +205,7 @@ glue_cuffnorm <-
     merged_gtf_path = "./cuff/2_merge/merged.gtf",
     core_num = 2
   ){
+    . <- NULL
     le <- "\\"
     group <- names(head_labels)
 
@@ -246,6 +248,7 @@ pipeline_cuffdiff <-
     core_num = 2,
     ref_gtf_path = "./TAIR10_GFF3_genes_transposons.gtf"
   ){
+    . <- NULL
 
     walk(
       head_labels,
@@ -299,6 +302,8 @@ pipeline_cuffdiff_noRABT <-
     core_num = 2,
     ref_gtf_path = "./TAIR10_GFF3_genes_transposons.gtf"
   ){
+    . <- NULL
+
     walk(
       head_labels,
       ~ print(glue_cufflinks(

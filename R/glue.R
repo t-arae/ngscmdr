@@ -1,63 +1,15 @@
-if(getRversion() >= "2.15.1")  utils::globalVariables(c("."))
-
-
-#' Extract files from arachive file (.tar)
-#' @importFrom glue glue
-#' @param archive_file .tar file path.
-#' @export
-glue_extract_file_from_tar <-
-  function(archive_file){
-    extract_to <- dirname(archive_file)
-    glue("
-
-tar xvf {archive_file} -C {extract_to}
-
-      ")
-  }
-
-
-#' Merge some fastq files to a fastq file
-#' @importFrom glue glue
-#' @param fpath_in_fastq_group .tar file path
-#' @param fpath_out_fastq .tar file path
-#' @export
-glue_merge_fastq <-
-  function(fpath_in_fastq_group, fpath_out_fastq){
-    glue("
-
-cat {fpath_in_fastq_group} | gzip -c > {fpath_out_fastq}
-rm {fpath_in_fastq_group}
-
-    ")
-  }
-
-#' Merge some fastq files to a fastq file
-#' @importFrom glue glue
-#' @param gziped_files .tar file path
-#' @param gzip_out .tar file path
-#' @export
-glue_merge_gz <-
-  function(gziped_files, gzip_out){
-    glue("
-
-cat {gziped_files} > {gzip_out}
-rm {gziped_files}
-
-    ")
-  }
-
 
 #' Create fastqc reports
 #' @importFrom glue glue
-#' @param in_dir .tar file path
-#' @param out_dir .tar file path
+#' @inheritParams param_general
 #' @export
 glue_fastqc <-
-  function(in_dir = "./fastq", out_dir = "./fastqc_out"){
+  function(in_dir = "./fastq", out_dir = "./fastqc_out", core_num = 4){
+    fq_ext <- get_file_ext()$fastq
     glue("
 
 mkdir {out_dir}
-fastqc -o {out_dir} {in_dir}/*.fastq.gz
+fastqc --extract -t {core_num} -o {out_dir} {in_dir}/*.{fq_ext}.gz
 
         ")
   }

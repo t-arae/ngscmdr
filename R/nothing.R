@@ -1,5 +1,4 @@
 
-
 #' Parameters for general use
 #' @param in_dir A path of directory which contains input files
 #' @param out_dir A path of directory for saving output files
@@ -13,7 +12,7 @@ param_general <-
     core_num
   ){}
 
-#' Parameters for genome indexing
+#' Parameters for genome indexing commands
 #' @param fasta_path genome fasta file path for indexing
 #' @param idx_name index name
 #' @param idx_dir directory path for the indexing output

@@ -2,7 +2,7 @@
 % Please edit documentation in R/nothing.R
 \name{param_genomeidx}
 \alias{param_genomeidx}
-\title{Parameters for genome indexing}
+\title{Parameters for genome indexing commands}
 \usage{
 param_genomeidx(fasta_path, idx_name, idx_dir)
 }
@@ -14,5 +14,5 @@ param_genomeidx(fasta_path, idx_name, idx_dir)
 \item{idx_dir}{directory path for the indexing output}
 }
 \description{
-Parameters for genome indexing
+Parameters for genome indexing commands
 }

@@ -12,12 +12,13 @@ glue_se_cutadapt <-
     out_dir = "./fastq"
   ){
     le <- "\\"
+    fq_ext <- fq_ext
     glue("
 
 cutadapt {le}
   -a {adaptor} {le}
-  -o {out_dir}/{head_label}_cl.fastq.gz {le}
-  {in_dir}/{head_label}.fastq.gz {le}
+  -o {out_dir}/{head_label}_cl.{fq_ext}.gz {le}
+  {in_dir}/{head_label}.{fq_ext}.gz {le}
 
          ")
   }
@@ -41,6 +42,7 @@ glue_pe_cutadapt <-
     out_dir = "./fastq"
   ){
     le <- "\\"
+    fq_ext <- fq_ext
     glue("
 
 cutadapt {le}
@@ -49,9 +51,9 @@ cutadapt {le}
   -m {minimum_length} {le}
   -a {f_adaptor} {le}
   -A {r_adaptor} {le}
-  -o {out_dir}/{head_label}_cl_1.fastq.gz {le}
-  -p {out_dir}/{head_label}_cl_2.fastq.gz {le}
-  {in_dir}/{head_label}_1.fastq.gz {in_dir}/{head_label}_2.fastq.gz
+  -o {out_dir}/{head_label}_cl_1.{fq_ext}.gz {le}
+  -p {out_dir}/{head_label}_cl_2.{fq_ext}.gz {le}
+  {in_dir}/{head_label}_1.{fq_ext}.gz {in_dir}/{head_label}_2.{fq_ext}.gz
 
          ")
   }

@@ -28,6 +28,7 @@ glue_bowtie_bamsort <-
     core_num = 2
   ){
     lineend <- "\\"
+    fq_ext <- fq_ext
     glue(
       "
 
@@ -37,7 +38,7 @@ bowtie {lineend}
   -S {lineend}
   -a --best --strata {line_end}
   {index_name} {lineend}
-  {in_dir}/{head_label}.fastq {lineend}
+  {in_dir}/{head_label}.{fq_ext} {lineend}
 | {lineend}
 samtools view -@ {core_num} -bS {lineend}
 | {lineend}

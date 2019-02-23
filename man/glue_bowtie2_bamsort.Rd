@@ -4,13 +4,13 @@
 \alias{glue_bowtie2_bamsort}
 \title{Map with bowtie2 and output a sorted bam file}
 \usage{
-glue_bowtie2_bamsort(head_label, index_name, core_num = 2,
+glue_bowtie2_bamsort(head_label, idx_dir = "./idx_bw2", core_num = 2,
   in_dir = "./fastq", out_dir = "./mapped_by_bowtie2")
 }
 \arguments{
 \item{head_label}{.tar file path}
 
-\item{index_name}{.tar file path}
+\item{idx_dir}{.tar file path}
 
 \item{core_num}{.tar file path}
 

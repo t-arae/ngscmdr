@@ -4,12 +4,12 @@
 \alias{glue_bowtie2_genome_generate}
 \title{Generate genome index for bowtie2}
 \usage{
-glue_bowtie2_genome_generate(fasta_path, index_name)
+glue_bowtie2_genome_generate(fasta_path, idx_dir = "./idx_bw2")
 }
 \arguments{
 \item{fasta_path}{.tar file path}
 
-\item{index_name}{.tar file path}
+\item{idx_dir}{.tar file path}
 }
 \description{
 Generate genome index for bowtie2

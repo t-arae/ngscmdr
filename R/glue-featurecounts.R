@@ -63,7 +63,7 @@ glue_pe_featurecounts <-
     feat_type = "exon"
   ){
     le <- "\\"
-    pe_flag <- "\n  -p \\"
+    pe_flag <- "\n  -p -C \\"
     glue("
 mkdir {out_dir}
 featureCounts {le}{pe_flag}

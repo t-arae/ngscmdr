@@ -6,7 +6,7 @@
 \usage{
 glue_star_genome_generate(idx_dir = "./idx_star",
   fasta_path = "./allChr.fas",
-  gff_path = "./TAIR10_GFF3_genes_transposons.gff", core_num = 2)
+  gff_path = "./TAIR10_GFF3_genes_transposons.gff", core_num = 4)
 }
 \arguments{
 \item{idx_dir}{directory path for the indexing output}

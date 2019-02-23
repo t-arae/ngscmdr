@@ -41,6 +41,7 @@ glue_se_hisat_bamsort <-
     out_dir = "./mapped_by_hisat"
   ){
     le <- "\\"
+    fq_ext <- fq_ext
     glue(
       "
 
@@ -51,7 +52,7 @@ hisat2 {le}
   --summary-file {out_dir}/report_{head_label}.txt {le}
   -p {core_num} {le}
   -x {idx_dir}/{idx_name} {le}
-  -U {in_dir}/{head_label}.fastq.gz {le}
+  -U {in_dir}/{head_label}.{fq_ext}.gz {le}
 | {le}
 samtools view -@ {core_num} -bS {le}
 | {le}
@@ -77,6 +78,7 @@ glue_pe_hisat_bamsort <-
            out_dir = "./mapped_by_hisat"
   ){
     le <- "\\"
+    fq_ext <- fq_ext
     glue(
       "
 
@@ -87,8 +89,8 @@ hisat2 {le}
   --summary-file {out_dir}/report_{head_label}.txt {le}
   -p {core_num} {le}
   -x {idx_dir}/{idx_name} {le}
-  -1 {in_dir}/{head_label}_1.fastq.gz {le}
-  -2 {in_dir}/{head_label}_2.fastq.gz {le}
+  -1 {in_dir}/{head_label}_1.{fq_ext}.gz {le}
+  -2 {in_dir}/{head_label}_2.{fq_ext}.gz {le}
 | {le}
 samtools view -@ {core_num} -bS {le}
 | {le}
