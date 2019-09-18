@@ -36,7 +36,7 @@ calc_rpm_from_featurecounts <-
 
     for(i in cn){
       df <- mutate(df, hoge = calc_rpm(df[[i]]))
-      colnames(df)[colnames(df) == "hoge"] <- paste0("rkm_", i)
+      colnames(df)[colnames(df) == "hoge"] <- paste0("rpm_", i)
     }
     df
   }
