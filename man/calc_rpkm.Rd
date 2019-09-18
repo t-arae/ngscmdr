@@ -2,7 +2,7 @@
 % Please edit documentation in R/calc_rpkm.R
 \name{calc_rpkm}
 \alias{calc_rpkm}
-\title{Calculate RPKM}
+\title{Calculate Reads Per Killobase of exon per Million mappled reads (RPKM)}
 \usage{
 calc_rpkm(readcount, len)
 }
@@ -12,5 +12,5 @@ calc_rpkm(readcount, len)
 \item{len}{feature length. atomic vector}
 }
 \description{
-Calculate RPKM
+Calculate Reads Per Killobase of exon per Million mappled reads (RPKM)
 }
