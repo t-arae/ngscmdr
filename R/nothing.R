@@ -3,6 +3,7 @@
 #' @param in_dir A path of directory which contains input files
 #' @param out_dir A path of directory for saving output files
 #' @param head_label sample label
+#' @param label sample label
 #' @param core_num number of cpu core
 param_general <-
   function(

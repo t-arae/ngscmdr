@@ -26,3 +26,5 @@ get_file_ext <-
   function(){
     getOption("ngscmdr_file_ext")
   }
+
+set_file_ext()

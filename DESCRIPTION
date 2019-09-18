@@ -16,5 +16,7 @@ Imports:
     dplyr,
     purrr,
     tibble,
-    readr
+    readr,
+    rlang,
+    tidyr
 RoxygenNote: 6.1.1

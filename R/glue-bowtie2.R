@@ -9,7 +9,7 @@ glue_bowtie2_genome_generate <-
     bn <- basename(fasta_path)
     glue("
 
-mkdir idx_bw2
+mkdir {idx_dir}
 bowtie2-build -f {fasta_path} {idx_dir}/{bn}
 
          ")

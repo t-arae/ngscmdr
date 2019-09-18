@@ -1,3 +1,4 @@
+
 #' Create new cmdopt class object
 #' @param ... ...
 #' @param cmd_id command type specifier
@@ -15,8 +16,7 @@ new_cmdopt <-
 print.cmdopt <-
   function(x, ...){
     cat("cmdopt class object\n")
-    cat("input file directory: ", x$in_dir, "\n")
-    cat("input file: ", x$inf, "\n")
+    cat("input file: ", paste(as.character(x$inf), collapse = " "), "\n")
     cat("output file directory: ", x$out_dir, "\n")
     cat("output file name: ", x$outf, "\n")
   }
@@ -28,8 +28,7 @@ cmd_get <- function(x) UseMethod("cmd_get")
 
 cmd_set_star <-
   function(
-    sample_label,
-    in_dir = "./fastq",
+    fastq_obj,
     out_dir = "./mapped_by_star",
     fasta_path = "./allChr.fas",
     idx_dir = "./idx_star",
@@ -37,13 +36,12 @@ cmd_set_star <-
     core_num = 4
   ){
     new_cmdopt(
-      label = sample_label,
-      in_dir = in_dir,
+      fastq_obj = fastq_obj,
       out_dir = out_dir,
-      fasta_path = "./allChr.fas",
-      idx_dir = "./idx_star",
-      gff_path = "./TAIR10_GFF3_genes_transposons.gff",
-      core_num = 4,
+      fasta_path = fasta_path,
+      idx_dir = idx_dir,
+      gff_path = gff_path,
+      core_num = core_num,
       cmd_id = "star"
     )
   }
@@ -51,7 +49,9 @@ cmd_set_star <-
 cmd_get.star <-
   function(x){
     x$le <- "\\"
-    x$fq_ext <- get_file_ext()$"fastq"
+    x$fq_ext <- get_file_ext()$fastq
+    x$fasta_path <- paste(x$fasta_path, collapse = " ")
+    x$inf <- paste(x$fastq_obj, collapse = " ")
     genome_indexing_string <- "
 mkdir {idx_dir}
 STAR {le}
@@ -80,7 +80,7 @@ STAR {le}
   --seedSearchStartLmax 15 {le}
   --outSAMtype BAM SortedByCoordinate {le}
   --readFilesCommand zcat {le}
-  --readFilesIn {in_dir}/{label}.{fq_ext}.gz {le}
+  --readFilesIn {inf} {le}
   --outFileNamePrefix {label}
 
 mkdir {out_dir}
@@ -94,3 +94,10 @@ rm {label}SJ.out.tab
 
     glue(paste0(genome_indexing_string, mapping_string), .envir = as.environment(x))
   }
+
+# cmd_set_star(
+#   new_fastq(c("hoge"), "./fastq/hoge.gz"),
+#   fasta_path = paste0("./fasta/Chr", c(1:5, "M", "C"), ".fas"),
+#   gff_path = "./TAIR10_GFF3_genes.gff"
+# ) %>%
+#   cmd_get()

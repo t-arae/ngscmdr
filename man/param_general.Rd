@@ -14,6 +14,8 @@ param_general(in_dir, out_dir, head_label, core_num)
 \item{head_label}{sample label}
 
 \item{core_num}{number of cpu core}
+
+\item{label}{sample label}
 }
 \description{
 Parameters for general use
